@@ -39,56 +39,58 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center">
           <Logo />
-          <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </nav>
         </div>
+        
+        <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="transition-colors hover:text-foreground/80 text-foreground/60"
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
 
-        <div className="hidden items-center gap-4 md:flex">
-          <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link href="/summarizer">Mulai Meringkas</Link>
-          </Button>
-        </div>
-
-        <div className="md:hidden">
-          <Sheet open={isMobileMenuOpen} onOpenChange={onMobileMenuToggle}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Buka Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <div className="flex flex-col gap-6 p-6">
-                <Logo />
-                <nav className="flex flex-col gap-4">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="text-lg font-medium"
-                      onClick={() => onMobileMenuToggle(false)}
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-                </nav>
-                <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => onMobileMenuToggle(false)}>
-                  <Link href="/summarizer">Mulai Meringkas</Link>
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex">
+            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold">
+              <Link href="/summarizer">Mulai Meringkas</Link>
+            </Button>
+          </div>
+          <div className="md:hidden">
+            <Sheet open={isMobileMenuOpen} onOpenChange={onMobileMenuToggle}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Buka Menu</span>
                 </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="flex flex-col gap-6 p-6">
+                  <Logo />
+                  <nav className="flex flex-col gap-4">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-lg font-medium"
+                        onClick={() => onMobileMenuToggle(false)}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </nav>
+                  <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold" onClick={() => onMobileMenuToggle(false)}>
+                    <Link href="/summarizer">Mulai Meringkas</Link>
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
