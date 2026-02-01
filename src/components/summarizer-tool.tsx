@@ -43,8 +43,8 @@ export function SummarizerTool() {
         toast({ variant: 'destructive', title: 'File tidak valid', description: 'Hanya file PDF yang diizinkan.' });
         return;
       }
-      if (selectedFile.size > 5 * 1024 * 1024) { // 5MB limit
-        toast({ variant: 'destructive', title: 'Ukuran file terlalu besar', description: 'Ukuran file maksimal adalah 5MB.' });
+      if (selectedFile.size > 10 * 1024 * 1024) { // 10MB limit
+        toast({ variant: 'destructive', title: 'Ukuran file terlalu besar', description: 'Ukuran file maksimal adalah 10MB.' });
         return;
       }
       setFile(selectedFile);
@@ -157,7 +157,7 @@ export function SummarizerTool() {
                     <Input id="pdf-upload" type="file" accept="application/pdf" onChange={handleFileChange} className="pr-24" disabled={isLoading} />
                     <span className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-muted-foreground truncate max-w-[100px]">{fileName}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground">Ukuran file maksimal 5MB.</p>
+                  <p className="text-xs text-muted-foreground">Ukuran file maksimal 10MB.</p>
                 </div>
               </TabsContent>
               <TabsContent value="url" className="mt-4">
