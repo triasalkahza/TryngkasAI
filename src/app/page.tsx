@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
-import { SummarizerTool } from '@/components/summarizer-tool';
 import { Menu, ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -21,7 +20,6 @@ export default function Home() {
       <Header onMobileMenuToggle={setIsMobileMenuOpen} isMobileMenuOpen={isMobileMenuOpen} />
       <main className="flex-1">
         <HeroSection />
-        <SummarizerSection />
         <WhyUsSection />
         <HowItWorksSection />
         <FeaturesSection />
@@ -52,10 +50,10 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
 
         <div className="hidden items-center gap-4 md:flex">
           <Button asChild variant="ghost" className="text-foreground/60">
-            <Link href="#summarizer">Gunakan Sekarang</Link>
+            <Link href="/summarizer">Gunakan Sekarang</Link>
           </Button>
           <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link href="#summarizer">Mulai Meringkas</Link>
+            <Link href="/summarizer">Mulai Meringkas</Link>
           </Button>
         </div>
 
@@ -83,7 +81,7 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
                   ))}
                 </nav>
                 <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => onMobileMenuToggle(false)}>
-                  <Link href="#summarizer">Mulai Meringkas</Link>
+                  <Link href="/summarizer">Mulai Meringkas</Link>
                 </Button>
               </div>
             </SheetContent>
@@ -108,23 +106,13 @@ function HeroSection() {
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
-              <Link href="#summarizer">Ringkas Sekarang</Link>
+              <Link href="/summarizer">Ringkas Sekarang</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
               <Link href="#how-it-works">Pelajari Caranya</Link>
             </Button>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function SummarizerSection() {
-  return (
-    <section id="summarizer" className="w-full bg-secondary/50 py-20 md:py-24 lg:py-32">
-      <div className="container">
-        <SummarizerTool />
       </div>
     </section>
   );
@@ -138,7 +126,7 @@ function WhyUsSection() {
   ];
 
   return (
-    <section id="features" className="w-full py-20 md:py-24 lg:py-32">
+    <section id="features" className="w-full bg-secondary/50 py-20 md:py-24 lg:py-32">
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
@@ -188,7 +176,7 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="w-full bg-secondary/50 py-20 md:py-24 lg:py-32">
+    <section id="how-it-works" className="w-full py-20 md:py-24 lg:py-32">
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
@@ -223,7 +211,7 @@ function FeaturesSection() {
         { icon: Globe, title: "Sepenuhnya Online", description: "Akses dari mana saja dan kapan saja. Tidak perlu instalasi perangkat lunak apa pun." },
     ];
     return (
-        <section className="py-20 md:py-24 lg:py-32">
+        <section className="py-20 md:py-24 lg:py-32 bg-secondary/50">
             <div className="container">
                 <div className="mx-auto max-w-3xl text-center">
                   <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">

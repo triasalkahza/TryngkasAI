@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { summarizeTextInput } from '@/ai/flows/summarize-text-input';
 import { summarizePdfUpload } from '@/ai/flows/summarize-pdf-upload';
@@ -193,31 +194,35 @@ export function SummarizerTool() {
           <CardTitle className="font-headline text-2xl">Hasil Ringkasan</CardTitle>
           <CardDescription>Ringkasan Anda akan muncul di sini.</CardDescription>
         </CardHeader>
-        <CardContent className="flex-grow">
-          <div className="relative h-full min-h-[300px] rounded-md border bg-background p-4">
+        <CardContent className="flex flex-grow flex-col">
+          <div className="relative flex-grow rounded-md border bg-background p-4">
             {isLoading && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80">
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
                 <p className="mt-4 text-muted-foreground">AI sedang bekerja...</p>
               </div>
             )}
-            <p className="text-sm text-foreground/90 whitespace-pre-wrap">{summary}</p>
+            <ScrollArea className="h-[300px] pr-4">
+                <p className="text-sm text-foreground/90 whitespace-pre-wrap">{summary}</p>
+            </ScrollArea>
             {!summary && !isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
                     <p className="text-muted-foreground">Menunggu untuk diringkas...</p>
                 </div>
             )}
-            {summary && (
-              <div className="absolute right-2 top-2 flex gap-2">
-                <Button variant="ghost" size="icon" onClick={handleCopy}>
-                  <Clipboard className="h-4 w-4" />
+          </div>
+            {summary && !isLoading && (
+              <div className="mt-4 flex justify-end gap-2">
+                <Button variant="outline" size="sm" onClick={handleCopy}>
+                  <Clipboard className="mr-2 h-4 w-4" />
+                  Salin
                 </Button>
-                <Button variant="ghost" size="icon" onClick={handleDownload}>
-                  <Download className="h-4 w-4" />
+                <Button variant="outline" size="sm" onClick={handleDownload}>
+                  <Download className="mr-2 h-4 w-4" />
+                  Unduh
                 </Button>
               </div>
             )}
-          </div>
         </CardContent>
       </Card>
     </div>
