@@ -42,10 +42,16 @@ Conciseness Level: {{intensity}} (A value from 0 to 100, where 0 is least concis
 
 Based on the Conciseness Level, adjust the length and detail of your output.
 
+Output Formatting Instructions:
+- If the task is 'ringkasan', provide a concise summary in a single, well-structured paragraph.
+- If the task is 'poin penting', provide the output as a bulleted list. Each point must start with '• ' and be on a new line. Separate each point with a single empty line.
+- If the task is 'pertanyaan', provide the output as a numbered list of questions (e.g., 1., 2., 3.). Each question must be on a new line. Separate each question with a single empty line.
+- If the task is 'ide konten', provide the output as a bulleted list. Each point must start with '• ' and be on a new line. Separate each point with a single empty line.
+
 Text to process:
 {{text}}
 
-Provide your response in the 'result' field of the JSON output.`,
+Provide your response in the 'result' field of the JSON output, following the formatting instructions strictly.`,
 });
 
 const summarizeTextInputFlow = ai.defineFlow(

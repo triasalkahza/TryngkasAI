@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 
 import { summarizeTextInput } from '@/ai/flows/summarize-text-input';
@@ -27,6 +26,22 @@ const urlSchema = z.object({
   url: z.string().url({ message: 'Harap masukkan URL yang valid.' }),
 });
 
+type OutputType = 'ringkasan' | 'poin penting' | 'pertanyaan' | 'ide konten';
+type Language = 'indonesia' | 'inggris';
+
+const outputTypes: { id: OutputType; label: string }[] = [
+  { id: 'ringkasan', label: 'Ringkasan' },
+  { id: 'poin penting', label: 'Poin Penting' },
+  { id: 'pertanyaan', label: 'Pertanyaan' },
+  { id: 'ide konten', label: 'Ide Konten' },
+];
+
+const languages: { id: Language; label: string }[] = [
+  { id: 'indonesia', label: 'Indonesia' },
+  { id: 'inggris', label: 'Inggris' },
+];
+
+
 export function SummarizerTool() {
   const [isLoading, setIsLoading] = useState(false);
   const [summary, setSummary] = useState('');
@@ -37,9 +52,8 @@ export function SummarizerTool() {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
 
-  // New state for additional options
-  const [outputType, setOutputType] = useState('ringkasan');
-  const [language, setLanguage] = useState('indonesia');
+  const [outputType, setOutputType] = useState<OutputType>('ringkasan');
+  const [language, setLanguage] = useState<Language>('indonesia');
   const [intensity, setIntensity] = useState([50]);
 
   const { toast } = useToast();
@@ -91,10 +105,10 @@ export function SummarizerTool() {
             const pdfDataUri = reader.result as string;
             const result = await summarizePdfUpload({ pdfDataUri, ...options });
             setSummary(result.result);
-            setIsLoading(false);
-          } catch (error) {
+          } catch (error: any) {
             console.error('PDF summarization error:', error);
-            toast({ variant: 'destructive', title: 'Gagal Meringkas PDF', description: 'Terjadi masalah saat memproses file Anda.' });
+            toast({ variant: 'destructive', title: 'Gagal Meringkas PDF', description: error.message || 'Terjadi masalah saat memproses file Anda.' });
+          } finally {
             setIsLoading(false);
           }
         };
@@ -102,7 +116,6 @@ export function SummarizerTool() {
           toast({ variant: 'destructive', title: 'Gagal Membaca File', description: 'Tidak dapat memuat file PDF.' });
           setIsLoading(false);
         };
-        // FileReader is async, so we return here to avoid setting isLoading to false prematurely.
         return;
       }
     } catch (error: any) {
@@ -112,9 +125,11 @@ export function SummarizerTool() {
         console.error('Summarization error:', error);
         toast({ variant: 'destructive', title: 'Terjadi Kesalahan', description: error.message || 'Gagal memproses permintaan Anda.' });
       }
+    } finally {
+      if (activeTab !== 'pdf') {
+        setIsLoading(false);
+      }
     }
-    
-    setIsLoading(false);
   };
 
   const handleCopy = () => {
@@ -137,7 +152,7 @@ export function SummarizerTool() {
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+    <div className="grid grid-cols-1 gap-8 max-w-4xl mx-auto">
       <Card>
         <CardHeader>
           <CardTitle className="font-headline text-2xl text-center">Mulai Meringkas</CardTitle>
@@ -189,33 +204,40 @@ export function SummarizerTool() {
               </TabsContent>
             </Tabs>
 
-            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div className="space-y-2">
-                    <Label htmlFor="output-type">Jenis Output</Label>
-                    <Select value={outputType} onValueChange={setOutputType} disabled={isLoading}>
-                        <SelectTrigger id="output-type">
-                            <SelectValue placeholder="Pilih jenis output" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="ringkasan">Ringkasan</SelectItem>
-                            <SelectItem value="poin penting">Poin Penting</SelectItem>
-                            <SelectItem value="pertanyaan">Pertanyaan</SelectItem>
-                            <SelectItem value="ide konten">Ide Konten</SelectItem>
-                        </SelectContent>
-                    </Select>
+            <div className="mt-6 space-y-4">
+              <div className="space-y-2">
+                <Label>Jenis Output</Label>
+                <div className="flex flex-wrap gap-2">
+                  {outputTypes.map((type) => (
+                    <Button
+                      key={type.id}
+                      type="button"
+                      variant={outputType === type.id ? 'default' : 'outline'}
+                      onClick={() => setOutputType(type.id)}
+                      disabled={isLoading}
+                      className="text-xs sm:text-sm"
+                    >
+                      {type.label}
+                    </Button>
+                  ))}
                 </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="language">Bahasa</Label>
-                    <Select value={language} onValueChange={setLanguage} disabled={isLoading}>
-                        <SelectTrigger id="language">
-                            <SelectValue placeholder="Pilih bahasa" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="indonesia">Indonesia</SelectItem>
-                            <SelectItem value="inggris">Inggris</SelectItem>
-                        </SelectContent>
-                    </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Bahasa</Label>
+                <div className="flex gap-2">
+                  {languages.map((lang) => (
+                    <Button
+                      key={lang.id}
+                      type="button"
+                      variant={language === lang.id ? 'default' : 'outline'}
+                      onClick={() => setLanguage(lang.id)}
+                      disabled={isLoading}
+                    >
+                      {lang.label}
+                    </Button>
+                  ))}
                 </div>
+              </div>
             </div>
 
             <div className="mt-6 space-y-2">
@@ -239,10 +261,10 @@ export function SummarizerTool() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Meringkas...
+                  Memproses...
                 </>
               ) : (
-                'Ringkas Sekarang'
+                'Proses'
               )}
             </Button>
           </form>
@@ -255,31 +277,31 @@ export function SummarizerTool() {
           <CardDescription>Hasil dari permintaan Anda akan muncul di sini.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-grow flex-col">
-          <div className="relative flex-grow rounded-md border bg-background">
-            {isLoading && (
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                <p className="mt-4 text-muted-foreground">AI sedang bekerja...</p>
-              </div>
-            )}
-            <ScrollArea className="h-[350px] w-full">
-              <div className="p-4">
-                <p className="text-sm text-foreground/90 whitespace-pre-wrap">{summary}</p>
-              </div>
-            </ScrollArea>
-            {!summary && !isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-muted-foreground">Menunggu untuk diproses...</p>
+            <div className="relative flex-grow rounded-md border bg-background">
+                {isLoading && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80">
+                    <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                    <p className="mt-4 text-muted-foreground">AI sedang bekerja...</p>
                 </div>
-            )}
-          </div>
-            {summary && !isLoading && (
+                )}
+                <ScrollArea className="h-[350px] w-full">
+                <div className="p-4">
+                    <p className="text-sm text-foreground/90 whitespace-pre-wrap">{summary}</p>
+                </div>
+                </ScrollArea>
+                {!summary && !isLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-muted-foreground">Menunggu untuk diproses...</p>
+                    </div>
+                )}
+            </div>
+             {summary && !isLoading && (
               <div className="mt-4 flex justify-end gap-2">
-                <Button variant="outline" size="sm" onClick={handleCopy}>
+                <Button size="sm" onClick={handleCopy}>
                   <Clipboard className="mr-2 h-4 w-4" />
                   Salin
                 </Button>
-                <Button variant="outline" size="sm" onClick={handleDownload}>
+                <Button size="sm" onClick={handleDownload}>
                   <Download className="mr-2 h-4 w-4" />
                   Unduh
                 </Button>
