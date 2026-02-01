@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import * as z from 'zod';
-import { Loader2, Clipboard, Download, FileText, Link as LinkIcon, UploadCloud } from 'lucide-react';
+import { Loader2, Clipboard, Download, FileText as FileTextIcon, Link as LinkIcon, UploadCloud, BookText, ListChecks, HelpCircle, Lightbulb } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -29,11 +29,11 @@ const urlSchema = z.object({
 type OutputType = 'ringkasan' | 'poin penting' | 'pertanyaan' | 'ide konten';
 type Language = 'indonesia' | 'inggris';
 
-const outputTypes: { id: OutputType; label: string }[] = [
-  { id: 'ringkasan', label: 'Ringkasan' },
-  { id: 'poin penting', label: 'Poin Penting' },
-  { id: 'pertanyaan', label: 'Pertanyaan' },
-  { id: 'ide konten', label: 'Ide Konten' },
+const outputTypes: { id: OutputType; label: string; icon: React.ElementType }[] = [
+  { id: 'ringkasan', label: 'Ringkasan', icon: BookText },
+  { id: 'poin penting', label: 'Poin Penting', icon: ListChecks },
+  { id: 'pertanyaan', label: 'Pertanyaan', icon: HelpCircle },
+  { id: 'ide konten', label: 'Ide Konten', icon: Lightbulb },
 ];
 
 const languages: { id: Language; label: string }[] = [
@@ -162,9 +162,9 @@ export function SummarizerTool() {
           <form onSubmit={handleSubmit}>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4" />Teks</TabsTrigger>
-                <TabsTrigger value="pdf"><UploadCloud className="mr-2 h-4 w-4" />PDF</TabsTrigger>
-                <TabsTrigger value="url"><LinkIcon className="mr-2 h-4 w-4" />URL</TabsTrigger>
+                <TabsTrigger value="text" className="font-bold"><FileTextIcon className="mr-2 h-4 w-4" />Teks</TabsTrigger>
+                <TabsTrigger value="pdf" className="font-bold"><UploadCloud className="mr-2 h-4 w-4" />PDF</TabsTrigger>
+                <TabsTrigger value="url" className="font-bold"><LinkIcon className="mr-2 h-4 w-4" />URL</TabsTrigger>
               </TabsList>
               <TabsContent value="text" className="mt-4">
                 <div className="space-y-4">
@@ -215,8 +215,9 @@ export function SummarizerTool() {
                       variant={outputType === type.id ? 'default' : 'outline'}
                       onClick={() => setOutputType(type.id)}
                       disabled={isLoading}
-                      className="text-xs sm:text-sm"
+                      className="text-xs sm:text-sm font-bold"
                     >
+                      <type.icon className="mr-2 h-4 w-4" />
                       {type.label}
                     </Button>
                   ))}
@@ -232,6 +233,7 @@ export function SummarizerTool() {
                       variant={language === lang.id ? 'default' : 'outline'}
                       onClick={() => setLanguage(lang.id)}
                       disabled={isLoading}
+                      className="font-bold"
                     >
                       {lang.label}
                     </Button>
@@ -257,7 +259,7 @@ export function SummarizerTool() {
               </div>
             </div>
 
-            <Button type="submit" size="lg" className="mt-8 w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isLoading}>
+            <Button type="submit" size="lg" className="mt-8 w-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -274,7 +276,7 @@ export function SummarizerTool() {
       <Card className="flex flex-col">
         <CardHeader>
           <CardTitle className="font-headline text-2xl">Hasil</CardTitle>
-          <CardDescription>Hasil dari permintaan Anda akan muncul di sini.</CardDescription>
+          <CardDescription>Berikut hasil yang telah diproses oleh AI.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-grow flex-col">
             <div className="relative flex-grow rounded-md border bg-background">
@@ -297,11 +299,11 @@ export function SummarizerTool() {
             </div>
              {summary && !isLoading && (
               <div className="mt-4 flex justify-end gap-2">
-                <Button size="sm" onClick={handleCopy}>
+                <Button size="sm" onClick={handleCopy} className="bg-primary text-primary-foreground hover:bg-primary/90">
                   <Clipboard className="mr-2 h-4 w-4" />
                   Salin
                 </Button>
-                <Button size="sm" onClick={handleDownload}>
+                <Button size="sm" onClick={handleDownload} className="bg-primary text-primary-foreground hover:bg-primary/90">
                   <Download className="mr-2 h-4 w-4" />
                   Unduh
                 </Button>
