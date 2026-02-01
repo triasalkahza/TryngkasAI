@@ -161,10 +161,10 @@ export function SummarizerTool() {
         <CardContent>
           <form onSubmit={handleSubmit}>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="text" className="font-bold"><FileTextIcon className="mr-2 h-4 w-4" />Teks</TabsTrigger>
-                <TabsTrigger value="pdf" className="font-bold"><UploadCloud className="mr-2 h-4 w-4" />PDF</TabsTrigger>
-                <TabsTrigger value="url" className="font-bold"><LinkIcon className="mr-2 h-4 w-4" />URL</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-3 bg-primary text-primary-foreground">
+                <TabsTrigger value="text" className="font-bold data-[state=active]:bg-background/90 data-[state=active]:text-primary"><FileTextIcon className="mr-2 h-4 w-4" />Teks</TabsTrigger>
+                <TabsTrigger value="pdf" className="font-bold data-[state=active]:bg-background/90 data-[state=active]:text-primary"><UploadCloud className="mr-2 h-4 w-4" />PDF</TabsTrigger>
+                <TabsTrigger value="url" className="font-bold data-[state=active]:bg-background/90 data-[state=active]:text-primary"><LinkIcon className="mr-2 h-4 w-4" />URL</TabsTrigger>
               </TabsList>
               <TabsContent value="text" className="mt-4">
                 <div className="space-y-4">
