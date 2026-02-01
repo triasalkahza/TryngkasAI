@@ -187,12 +187,11 @@ function HowItWorksSection() {
           </p>
         </div>
 
-        <div className="relative mt-16">
-          <div className="absolute left-1/2 top-10 hidden h-full w-px -translate-x-1/2 bg-border md:block"></div>
+        <div className="mt-16">
           <div className="grid gap-12 md:grid-cols-3">
-            {steps.map((step, index) => (
-              <div key={step.step} className="relative flex flex-col items-center text-center">
-                <div className="z-10 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">{step.step}</div>
+            {steps.map((step) => (
+              <div key={step.step} className="flex flex-col items-center text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">{step.step}</div>
                 <h3 className="mt-6 font-headline text-xl font-bold">{step.title}</h3>
                 <p className="mt-2 text-foreground/70">{step.description}</p>
               </div>
