@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users, MousePointerClick, Code, GraduationCap, Briefcase, BookOpen } from 'lucide-react';
+import { ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users, MousePointerClick, Code, GraduationCap, Briefcase, BookOpen, Newspaper } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -41,7 +41,7 @@ function HeroSection() {
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto font-bold">
-              <Link href="/summarizer">Ringkas Sekarang</Link>
+              <Link href="/summarizer">Mulai sekarang</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full sm:w-auto font-bold">
               <Link href="#how-it-works">Pelajari Caranya</Link>
@@ -234,6 +234,11 @@ function CaseStudySection() {
       icon: BookOpen,
       title: "Penulis & Kreator Konten",
       description: "Menghasilkan ide konten, membuat draf, dan menyempurnakan tulisan dengan menganalisis berbagai sumber referensi secara efisien."
+    },
+    {
+      icon: Newspaper,
+      title: "Jurnalis & Media",
+      description: "Merangkum siaran pers, transkrip wawancara, dan laporan panjang menjadi berita atau artikel yang padat dan informatif."
     }
   ];
 
@@ -248,7 +253,7 @@ function CaseStudySection() {
             Lihat bagaimana TryngkasAI membantu berbagai kalangan mencapai lebih banyak.
           </p>
         </div>
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {caseStudies.map((study) => (
             <Card key={study.title} className="flex flex-col items-center text-center bg-card shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader className="items-center">

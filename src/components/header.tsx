@@ -49,7 +49,7 @@ export function Header() {
         <div className="flex items-center gap-4 ml-auto">
           <div className="hidden md:flex">
              <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold">
-              <Link href="/summarizer">Mulai Meringkas</Link>
+              <Link href="/summarizer">Mulai Sekarang</Link>
             </Button>
           </div>
           <div className="md:hidden">
@@ -76,7 +76,7 @@ export function Header() {
                     ))}
                   </nav>
                   <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Link href="/summarizer">Mulai Meringkas</Link>
+                    <Link href="/summarizer">Mulai Sekarang</Link>
                   </Button>
                 </div>
               </SheetContent>
