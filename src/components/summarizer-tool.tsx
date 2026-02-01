@@ -12,6 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
 
 import { summarizeTextInput } from '@/ai/flows/summarize-text-input';
 import { summarizePdfUpload } from '@/ai/flows/summarize-pdf-upload';
@@ -34,6 +36,11 @@ export function SummarizerTool() {
   const [urlInput, setUrlInput] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
+
+  // New state for additional options
+  const [outputType, setOutputType] = useState('ringkasan');
+  const [language, setLanguage] = useState('indonesia');
+  const [intensity, setIntensity] = useState([50]);
 
   const { toast } = useToast();
 
@@ -58,15 +65,21 @@ export function SummarizerTool() {
     setIsLoading(true);
     setSummary('');
 
+    const options = {
+      outputType,
+      language,
+      intensity: intensity[0],
+    };
+
     try {
       if (activeTab === 'text') {
         textSchema.parse({ text: textInput });
-        const result = await summarizeTextInput({ text: textInput });
-        setSummary(result.summary);
+        const result = await summarizeTextInput({ text: textInput, ...options });
+        setSummary(result.result);
       } else if (activeTab === 'url') {
         urlSchema.parse({ url: urlInput });
-        const result = await summarizeWebsiteUrl({ url: urlInput });
-        setSummary(result.summary);
+        const result = await summarizeWebsiteUrl({ url: urlInput, ...options });
+        setSummary(result.result);
       } else if (activeTab === 'pdf') {
         if (!file) {
           throw new Error('Silakan pilih file PDF untuk diringkas.');
@@ -76,8 +89,8 @@ export function SummarizerTool() {
         reader.onload = async () => {
           try {
             const pdfDataUri = reader.result as string;
-            const result = await summarizePdfUpload({ pdfDataUri });
-            setSummary(result.summary);
+            const result = await summarizePdfUpload({ pdfDataUri, ...options });
+            setSummary(result.result);
             setIsLoading(false);
           } catch (error) {
             console.error('PDF summarization error:', error);
@@ -107,7 +120,7 @@ export function SummarizerTool() {
   const handleCopy = () => {
     if (!summary) return;
     navigator.clipboard.writeText(summary);
-    toast({ title: 'Berhasil', description: 'Ringkasan telah disalin ke clipboard.' });
+    toast({ title: 'Berhasil', description: 'Hasil telah disalin ke clipboard.' });
   };
 
   const handleDownload = () => {
@@ -116,7 +129,7 @@ export function SummarizerTool() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ringkasan_tryngkasai.txt`;
+    a.download = `hasil_tryngkasai.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -124,20 +137,20 @@ export function SummarizerTool() {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+    <div className="flex flex-col gap-8 max-w-4xl mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle className="font-headline text-2xl">Mulai Meringkas</CardTitle>
-          <CardDescription>Pilih sumber konten yang ingin Anda ringkas.</CardDescription>
+          <CardTitle className="font-headline text-2xl text-center">Mulai Meringkas</CardTitle>
+          <CardDescription className="text-center">Pilih sumber konten dan atur preferensi output Anda.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4" />Teks</TabsTrigger>
-              <TabsTrigger value="pdf"><UploadCloud className="mr-2 h-4 w-4" />PDF</TabsTrigger>
-              <TabsTrigger value="url"><LinkIcon className="mr-2 h-4 w-4" />URL</TabsTrigger>
-            </TabsList>
-            <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4" />Teks</TabsTrigger>
+                <TabsTrigger value="pdf"><UploadCloud className="mr-2 h-4 w-4" />PDF</TabsTrigger>
+                <TabsTrigger value="url"><LinkIcon className="mr-2 h-4 w-4" />URL</TabsTrigger>
+              </TabsList>
               <TabsContent value="text" className="mt-4">
                 <div className="space-y-4">
                   <Label htmlFor="text-input" className="sr-only">Teks</Label>
@@ -174,40 +187,89 @@ export function SummarizerTool() {
                   />
                 </div>
               </TabsContent>
-              <Button type="submit" size="lg" className="mt-6 w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Meringkas...
-                  </>
-                ) : (
-                  'Ringkas Sekarang'
-                )}
-              </Button>
-            </form>
-          </Tabs>
+            </Tabs>
+
+            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="space-y-2">
+                    <Label htmlFor="output-type">Jenis Output</Label>
+                    <Select value={outputType} onValueChange={setOutputType} disabled={isLoading}>
+                        <SelectTrigger id="output-type">
+                            <SelectValue placeholder="Pilih jenis output" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ringkasan">Ringkasan</SelectItem>
+                            <SelectItem value="poin penting">Poin Penting</SelectItem>
+                            <SelectItem value="pertanyaan">Pertanyaan</SelectItem>
+                            <SelectItem value="ide konten">Ide Konten</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                 <div className="space-y-2">
+                    <Label htmlFor="language">Bahasa</Label>
+                    <Select value={language} onValueChange={setLanguage} disabled={isLoading}>
+                        <SelectTrigger id="language">
+                            <SelectValue placeholder="Pilih bahasa" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="indonesia">Indonesia</SelectItem>
+                            <SelectItem value="inggris">Inggris</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+
+            <div className="mt-6 space-y-2">
+              <Label htmlFor="intensity">Intensitas Ringkasan ({intensity[0]})</Label>
+              <Slider
+                id="intensity"
+                min={0}
+                max={100}
+                step={1}
+                value={intensity}
+                onValueChange={setIntensity}
+                disabled={isLoading}
+              />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>Kurang Rinci</span>
+                <span>Sangat Ringkas</span>
+              </div>
+            </div>
+
+            <Button type="submit" size="lg" className="mt-8 w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Meringkas...
+                </>
+              ) : (
+                'Ringkas Sekarang'
+              )}
+            </Button>
+          </form>
         </CardContent>
       </Card>
       
       <Card className="flex flex-col">
         <CardHeader>
-          <CardTitle className="font-headline text-2xl">Hasil Ringkasan</CardTitle>
-          <CardDescription>Ringkasan Anda akan muncul di sini.</CardDescription>
+          <CardTitle className="font-headline text-2xl">Hasil</CardTitle>
+          <CardDescription>Hasil dari permintaan Anda akan muncul di sini.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-grow flex-col">
-          <div className="relative flex-grow rounded-md border bg-background p-4">
+          <div className="relative flex-grow rounded-md border bg-background">
             {isLoading && (
               <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/80">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
                 <p className="mt-4 text-muted-foreground">AI sedang bekerja...</p>
               </div>
             )}
-            <ScrollArea className="h-[300px] pr-4">
+            <ScrollArea className="h-[350px] w-full">
+              <div className="p-4">
                 <p className="text-sm text-foreground/90 whitespace-pre-wrap">{summary}</p>
+              </div>
             </ScrollArea>
             {!summary && !isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-muted-foreground">Menunggu untuk diringkas...</p>
+                    <p className="text-muted-foreground">Menunggu untuk diproses...</p>
                 </div>
             )}
           </div>

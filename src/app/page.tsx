@@ -2,26 +2,17 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Logo } from '@/components/logo';
-import { Menu, ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users, MousePointerClick, Code } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users, MousePointerClick, Code } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 
-
-const navLinks = [
-  { name: 'Fitur', href: '#features' },
-  { name: 'Cara Kerja', href: '#how-it-works' },
-  { name: 'Keunggulan', href: '#advantages' },
-  { name: 'FAQ', href: '#faq' },
-];
 
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <>
-      <Header onMobileMenuToggle={setIsMobileMenuOpen} isMobileMenuOpen={isMobileMenuOpen} />
+      <Header />
       <main className="flex-1">
         <HeroSection />
         <WhyUsSection />
@@ -32,68 +23,6 @@ export default function Home() {
       </main>
       <Footer />
     </>
-  );
-}
-
-function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: (open: boolean) => void, isMobileMenuOpen: boolean }) {
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center">
-          <Logo />
-        </div>
-        
-        <nav className="hidden items-center gap-6 text-sm font-semibold md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex">
-            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold">
-              <Link href="/summarizer">Mulai Meringkas</Link>
-            </Button>
-          </div>
-          <div className="md:hidden">
-            <Sheet open={isMobileMenuOpen} onOpenChange={onMobileMenuToggle}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Buka Menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <div className="flex flex-col gap-6 p-6">
-                  <Logo />
-                  <nav className="flex flex-col gap-4">
-                    {navLinks.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        className="text-lg font-semibold"
-                        onClick={() => onMobileMenuToggle(false)}
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </nav>
-                  <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 font-bold" onClick={() => onMobileMenuToggle(false)}>
-                    <Link href="/summarizer">Mulai Meringkas</Link>
-                  </Button>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </div>
-    </header>
   );
 }
 
@@ -331,18 +260,5 @@ function FAQSection() {
         </Accordion>
       </div>
     </section>
-  );
-}
-
-
-function Footer() {
-  return (
-    <footer className="border-t bg-background">
-      <div className="container flex h-16 items-center justify-center">
-        <p className="text-center text-sm text-foreground/60">
-          Build with ❤️ by <span className="font-bold">Trisakti Akbar</span>
-        </p>
-      </div>
-    </footer>
   );
 }
