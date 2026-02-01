@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users, MousePointerClick, Code } from 'lucide-react';
+import { ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users, MousePointerClick, Code, GraduationCap, Briefcase, BookOpen } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -19,6 +19,7 @@ export default function Home() {
         <HowItWorksSection />
         <FeaturesSection />
         <AdvantagesSection />
+        <CaseStudySection />
         <FAQSection />
       </main>
       <Footer />
@@ -28,7 +29,7 @@ export default function Home() {
 
 function HeroSection() {
   return (
-    <section className="relative w-full bg-primary/10 py-20 md:py-32 lg:py-40">
+    <section className="relative w-full bg-background py-20 md:py-32 lg:py-40">
        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white_5%,transparent_90%)] dark:bg-grid-slate-700/40"></div>
       <div className="container relative text-center">
         <div className="mx-auto max-w-3xl">
@@ -217,6 +218,56 @@ function AdvantagesSection() {
   );
 }
 
+function CaseStudySection() {
+  const caseStudies = [
+    {
+      icon: GraduationCap,
+      title: "Mahasiswa & Akademisi",
+      description: "Meringkas jurnal ilmiah, buku teks, dan materi kuliah kompleks untuk mempercepat proses belajar dan penelitian."
+    },
+    {
+      icon: Briefcase,
+      title: "Profesional & Bisnis",
+      description: "Menganalisis laporan pasar, dokumen hukum, dan artikel berita industri untuk pengambilan keputusan yang lebih cepat dan tepat."
+    },
+    {
+      icon: BookOpen,
+      title: "Penulis & Kreator Konten",
+      description: "Menghasilkan ide konten, membuat draf, dan menyempurnakan tulisan dengan menganalisis berbagai sumber referensi secara efisien."
+    }
+  ];
+
+  return (
+    <section id="case-studies" className="w-full bg-background py-20 md:py-24 lg:py-32">
+      <div className="container">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+            Studi Kasus Pengguna
+          </h2>
+          <p className="mt-4 text-lg text-foreground/80">
+            Lihat bagaimana TryngkasAI membantu berbagai kalangan mencapai lebih banyak.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
+          {caseStudies.map((study) => (
+            <Card key={study.title} className="flex flex-col items-center text-center bg-card shadow-lg hover:shadow-xl transition-shadow">
+              <CardHeader className="items-center">
+                <div className="mb-4 rounded-full bg-primary/10 p-4 text-primary">
+                  <study.icon className="h-8 w-8" />
+                </div>
+                <CardTitle className="font-headline text-foreground">{study.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-foreground/80">{study.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FAQSection() {
   const faqs = [
     {
@@ -238,21 +289,21 @@ function FAQSection() {
   ];
 
   return (
-    <section id="faq" className="w-full bg-background py-20 md:py-24 lg:py-32">
+    <section id="faq" className="w-full bg-primary text-primary-foreground py-20 md:py-24 lg:py-32">
       <div className="container max-w-4xl">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-accent sm:text-4xl">
             Pertanyaan yang Sering Diajukan
           </h2>
-          <p className="mt-4 text-lg text-foreground/80">
+          <p className="mt-4 text-lg text-primary-foreground/80">
             Menemukan jawaban yang Anda butuhkan? Jika tidak, jangan ragu untuk menghubungi kami.
           </p>
         </div>
         <Accordion type="single" collapsible className="w-full mt-12">
           {faqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-left font-headline text-lg">{faq.question}</AccordionTrigger>
-              <AccordionContent className="text-foreground/80">
+            <AccordionItem key={index} value={`item-${index}`} className="border-b-primary-foreground/20">
+              <AccordionTrigger className="text-left font-headline text-lg hover:text-accent transition-colors">{faq.question}</AccordionTrigger>
+              <AccordionContent className="text-primary-foreground/80">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

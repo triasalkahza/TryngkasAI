@@ -11,6 +11,7 @@ const navLinks = [
     { name: 'Fitur', href: '/#features' },
     { name: 'Cara Kerja', href: '/#how-it-works' },
     { name: 'Keunggulan', href: '/#advantages' },
+    { name: 'Studi Kasus', href: '/#case-studies' },
     { name: 'FAQ', href: '/#faq' },
 ];
 
