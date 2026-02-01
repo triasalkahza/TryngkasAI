@@ -254,8 +254,8 @@ export function SummarizerTool() {
                 disabled={isLoading}
               />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Kurang Rinci</span>
-                <span>Sangat Ringkas</span>
+                <span>Lebih Panjang</span>
+                <span>Lebih Pendek</span>
               </div>
             </div>
 
