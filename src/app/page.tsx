@@ -3,15 +3,15 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
-import { Menu, ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users } from 'lucide-react';
+import { Menu, ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users, MousePointerClick, Code } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 
 const navLinks = [
-  { name: 'Cara Kerja', href: '#how-it-works' },
   { name: 'Fitur', href: '#features' },
+  { name: 'Cara Kerja', href: '#how-it-works' },
   { name: 'Keunggulan', href: '#advantages' },
   { name: 'FAQ', href: '#faq' },
 ];
@@ -43,7 +43,7 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
           <Logo />
         </div>
         
-        <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-semibold md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -77,7 +77,7 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
                       <Link
                         key={link.href}
                         href={link.href}
-                        className="text-lg font-medium"
+                        className="text-lg font-semibold"
                         onClick={() => onMobileMenuToggle(false)}
                       >
                         {link.name}
@@ -104,16 +104,16 @@ function HeroSection() {
       <div className="container relative text-center">
         <div className="mx-auto max-w-3xl">
           <h1 className="font-headline text-4xl font-extrabold tracking-tight text-primary sm:text-5xl md:text-6xl">
-            Pahami Dokumen Panjang dalam Hitungan Detik.
+            Ringkas Dokumen dalam Hitungan Detik.
           </h1>
           <p className="mt-6 text-lg text-foreground/80 md:text-xl">
             Ringkas teks, PDF, atau link website secara instan dengan kecerdasan AI. Gratis, tanpa ribet.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto">
+            <Button asChild size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto font-bold">
               <Link href="/summarizer">Ringkas Sekarang</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto font-bold">
               <Link href="#how-it-works">Pelajari Caranya</Link>
             </Button>
           </div>
@@ -176,8 +176,13 @@ function HowItWorksSection() {
     {
       step: 3,
       title: "Dapatkan Ringkasan",
-      description: "Tekan tombol 'Ringkas Sekarang' dan dapatkan hasilnya dalam sekejap. Salin atau unduh sesuai kebutuhan.",
+      description: "Tekan tombol 'Ringkas Sekarang' dan dapatkan hasilnya dalam sekejap.",
     },
+    {
+      step: 4,
+      title: "Manfaatkan Hasilnya",
+      description: "Salin ringkasan ke clipboard, atau unduh sebagai file teks untuk digunakan nanti.",
+    }
   ];
 
   return (
@@ -188,12 +193,12 @@ function HowItWorksSection() {
             Sangat Mudah Digunakan
           </h2>
           <p className="mt-4 text-lg text-foreground/80">
-            Hanya dalam tiga langkah sederhana, informasi penting ada di tangan Anda.
+            Hanya dalam empat langkah sederhana, informasi penting ada di tangan Anda.
           </p>
         </div>
 
         <div className="relative mt-16">
-          <div className="grid gap-12 md:grid-cols-3">
+          <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((step) => (
               <div key={step.step} className="flex flex-col items-center text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">{step.step}</div>
@@ -213,6 +218,7 @@ function FeaturesSection() {
         { icon: Bot, title: "Teknologi AI", description: "Memanfaatkan kekuatan model AI yang canggih untuk kualitas ringkasan terbaik." },
         { icon: FileCode, title: "Multi-Format", description: "Mendukung berbagai jenis input, dari teks biasa, dokumen PDF, hingga konten halaman web." },
         { icon: Globe, title: "Sepenuhnya Online", description: "Akses dari mana saja dan kapan saja. Tidak perlu instalasi perangkat lunak apa pun." },
+        { icon: MousePointerClick, title: "Antarmuka Intuitif", description: "Didesain dengan antarmuka yang bersih dan ramah pengguna untuk pengalaman yang lancar." },
     ];
     return (
         <section className="py-20 md:py-24 lg:py-32 bg-primary text-primary-foreground">
@@ -225,7 +231,7 @@ function FeaturesSection() {
                     Semua yang Anda butuhkan untuk memahami konten lebih cepat.
                   </p>
                 </div>
-                <div className="mt-12 grid gap-8 md:grid-cols-3">
+                <div className="mt-12 grid gap-8 md:grid-cols-2">
                     {featureList.map((feature) => (
                         <div key={feature.title} className="flex items-start gap-4">
                             <div className="mt-1 rounded-md bg-accent p-2 text-accent-foreground">
@@ -248,6 +254,7 @@ function AdvantagesSection() {
     { icon: Rocket, title: "Super Cepat", description: "Hemat waktu berharga Anda dengan teknologi peringkasan kilat." },
     { icon: Scale, title: "Skalabilitas", description: "Mampu menangani dokumen besar dan ringkasan massal dengan mudah." },
     { icon: Users, title: "Berpusat pada Pengguna", description: "Dirancang dengan antarmuka yang intuitif untuk pengalaman terbaik." },
+    { icon: Code, title: "Open Source", description: "Kode sumber terbuka, transparan, dan dapat dikontribusikan oleh komunitas." }
   ];
 
   return (
@@ -261,7 +268,7 @@ function AdvantagesSection() {
             Lihat apa yang membuat TryngkasAI selangkah lebih maju.
           </p>
         </div>
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {advantages.map((adv) => (
             <Card key={adv.title} className="flex flex-col items-center text-center bg-background/50">
               <CardHeader className="items-center">
@@ -285,7 +292,7 @@ function FAQSection() {
   const faqs = [
     {
       question: "Apakah TryngkasAI benar-benar gratis digunakan?",
-      answer: "Ya, TryngkasAI sepenuhnya gratis untuk semua fitur utamanya, termasuk ringkasan teks, PDF, dan URL. Tidak ada biaya tersembunyi apapun."
+      answer: "Ya, TryngkasAI sepenuhnya gratis untuk semua fitur utamanya, termasuk ringkasan teks, PDF, dan URL. Tidak ada biaya apapun."
     },
     {
       question: "Seberapa aman data dan file yang saya unggah?",
