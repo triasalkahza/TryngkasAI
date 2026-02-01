@@ -3,13 +3,17 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
-import { Menu, ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe } from 'lucide-react';
+import { Menu, ShieldCheck, Sparkles, Zap, Bot, FileCode, Globe, Scale, Rocket, Users } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 
 const navLinks = [
   { name: 'Cara Kerja', href: '#how-it-works' },
   { name: 'Fitur', href: '#features' },
+  { name: 'Keunggulan', href: '#advantages' },
+  { name: 'FAQ', href: '#faq' },
 ];
 
 export default function Home() {
@@ -23,6 +27,8 @@ export default function Home() {
         <WhyUsSection />
         <HowItWorksSection />
         <FeaturesSection />
+        <AdvantagesSection />
+        <FAQSection />
       </main>
       <Footer />
     </>
@@ -49,9 +55,6 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
         </div>
 
         <div className="hidden items-center gap-4 md:flex">
-          <Button asChild variant="ghost" className="text-foreground/60">
-            <Link href="/summarizer">Gunakan Sekarang</Link>
-          </Button>
           <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
             <Link href="/summarizer">Mulai Meringkas</Link>
           </Button>
@@ -94,7 +97,7 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
 
 function HeroSection() {
   return (
-    <section className="relative w-full py-20 md:py-32 lg:py-40">
+    <section className="relative w-full bg-background py-20 md:py-32 lg:py-40">
        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white_5%,transparent_90%)] dark:bg-grid-slate-700/40"></div>
       <div className="container relative text-center">
         <div className="mx-auto max-w-3xl">
@@ -126,27 +129,27 @@ function WhyUsSection() {
   ];
 
   return (
-    <section id="features" className="w-full bg-secondary/50 py-20 md:py-24 lg:py-32">
+    <section id="features" className="w-full bg-primary text-primary-foreground py-20 md:py-24 lg:py-32">
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-accent sm:text-4xl">
             Kenapa Memilih TryngkasAI?
           </h2>
-          <p className="mt-4 text-lg text-foreground/80">
+          <p className="mt-4 text-lg text-primary-foreground/80">
             Kami menawarkan kombinasi terbaik antara kecepatan, keamanan, dan kemudahan penggunaan.
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-3">
           {advantages.map((adv) => (
-            <Card key={adv.title} className="flex flex-col items-center text-center">
+            <Card key={adv.title} className="flex flex-col items-center text-center bg-primary-foreground/5 border-accent/20">
               <CardHeader className="items-center">
-                <div className="mb-4 rounded-full bg-primary/10 p-4 text-primary">
+                <div className="mb-4 rounded-full bg-accent p-4 text-accent-foreground">
                   <adv.icon className="h-8 w-8" />
                 </div>
-                <CardTitle className="font-headline">{adv.title}</CardTitle>
+                <CardTitle className="font-headline text-primary-foreground">{adv.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-foreground/80">{adv.description}</p>
+                <p className="text-primary-foreground/80">{adv.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -176,7 +179,7 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="how-it-works" className="w-full py-20 md:py-24 lg:py-32">
+    <section id="how-it-works" className="w-full bg-background py-20 md:py-24 lg:py-32">
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
@@ -187,7 +190,7 @@ function HowItWorksSection() {
           </p>
         </div>
 
-        <div className="mt-16">
+        <div className="relative mt-16">
           <div className="grid gap-12 md:grid-cols-3">
             {steps.map((step) => (
               <div key={step.step} className="flex flex-col items-center text-center">
@@ -210,25 +213,25 @@ function FeaturesSection() {
         { icon: Globe, title: "Sepenuhnya Online", description: "Akses dari mana saja dan kapan saja. Tidak perlu instalasi perangkat lunak apa pun." },
     ];
     return (
-        <section className="py-20 md:py-24 lg:py-32 bg-secondary/50">
+        <section className="py-20 md:py-24 lg:py-32 bg-primary text-primary-foreground">
             <div className="container">
                 <div className="mx-auto max-w-3xl text-center">
-                  <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+                  <h2 className="font-headline text-3xl font-bold tracking-tight text-accent sm:text-4xl">
                     Fitur Lengkap untuk Kebutuhan Anda
                   </h2>
-                  <p className="mt-4 text-lg text-foreground/80">
+                  <p className="mt-4 text-lg text-primary-foreground/80">
                     Semua yang Anda butuhkan untuk memahami konten lebih cepat.
                   </p>
                 </div>
                 <div className="mt-12 grid gap-8 md:grid-cols-3">
                     {featureList.map((feature) => (
                         <div key={feature.title} className="flex items-start gap-4">
-                            <div className="mt-1 rounded-md bg-primary/10 p-2 text-primary">
+                            <div className="mt-1 rounded-md bg-accent p-2 text-accent-foreground">
                                 <feature.icon className="h-6 w-6" />
                             </div>
                             <div>
-                                <h3 className="font-headline text-lg font-bold">{feature.title}</h3>
-                                <p className="mt-1 text-foreground/70">{feature.description}</p>
+                                <h3 className="font-headline text-lg font-bold text-primary-foreground">{feature.title}</h3>
+                                <p className="mt-1 text-primary-foreground/70">{feature.description}</p>
                             </div>
                         </div>
                     ))}
@@ -238,9 +241,94 @@ function FeaturesSection() {
     );
 }
 
+function AdvantagesSection() {
+  const advantages = [
+    { icon: Rocket, title: "Super Cepat", description: "Hemat waktu berharga Anda dengan teknologi peringkasan kilat." },
+    { icon: Scale, title: "Skalabilitas", description: "Mampu menangani dokumen besar dan ringkasan massal dengan mudah." },
+    { icon: Users, title: "Berpusat pada Pengguna", description: "Dirancang dengan antarmuka yang intuitif untuk pengalaman terbaik." },
+  ];
+
+  return (
+    <section id="advantages" className="w-full bg-accent/20 py-20 md:py-24 lg:py-32">
+      <div className="container">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+            Keunggulan Kompetitif
+          </h2>
+          <p className="mt-4 text-lg text-foreground/80">
+            Lihat apa yang membuat TryngkasAI selangkah lebih maju.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
+          {advantages.map((adv) => (
+            <Card key={adv.title} className="flex flex-col items-center text-center bg-background/50">
+              <CardHeader className="items-center">
+                <div className="mb-4 rounded-full bg-primary/10 p-4 text-primary">
+                  <adv.icon className="h-8 w-8" />
+                </div>
+                <CardTitle className="font-headline">{adv.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-foreground/80">{adv.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQSection() {
+  const faqs = [
+    {
+      question: "Apakah TryngkasAI benar-benar gratis digunakan?",
+      answer: "Ya, TryngkasAI sepenuhnya gratis untuk semua fitur utamanya, termasuk ringkasan teks, PDF, dan URL. Tidak ada biaya tersembunyi."
+    },
+    {
+      question: "Seberapa aman data dan file yang saya unggah?",
+      answer: "Kami sangat memprioritaskan privasi Anda. File PDF diproses secara lokal di browser Anda dan tidak pernah diunggah atau disimpan di server kami. Konten teks dan URL hanya dikirim untuk dianalisis dan tidak disimpan setelahnya."
+    },
+    {
+      question: "Format file apa saja yang didukung untuk ringkasan?",
+      answer: "Saat ini kami mendukung unggahan file dalam format PDF. Untuk format lain, Anda dapat menyalin konten teksnya dan menempelkannya langsung ke tab 'Teks'."
+    },
+     {
+      question: "Apakah ada batasan jumlah kata atau halaman?",
+      answer: "Untuk ringkasan teks, batasnya adalah 15.000 karakter. Untuk PDF, batas ukuran filenya adalah 10MB. Ini sudah cukup untuk sebagian besar dokumen, seperti artikel, laporan, atau makalah."
+    }
+  ];
+
+  return (
+    <section id="faq" className="w-full bg-background py-20 md:py-24 lg:py-32">
+      <div className="container max-w-4xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+            Pertanyaan yang Sering Diajukan
+          </h2>
+          <p className="mt-4 text-lg text-foreground/80">
+            Menemukan jawaban yang Anda butuhkan? Jika tidak, jangan ragu untuk menghubungi kami.
+          </p>
+        </div>
+        <Accordion type="single" collapsible className="w-full mt-12">
+          {faqs.map((faq, index) => (
+            <AccordionItem key={index} value={`item-${index}`}>
+              <AccordionTrigger className="text-left font-headline text-lg">{faq.question}</AccordionTrigger>
+              <AccordionContent className="text-foreground/80">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </section>
+  );
+}
+
+
 function Footer() {
   return (
-    <footer className="border-t">
+    <footer className="border-t bg-background">
       <div className="container flex h-16 items-center justify-center">
         <p className="text-center text-sm text-foreground/60">
           Build with ❤️ by <span className="font-bold">Trisakti Akbar</span>
