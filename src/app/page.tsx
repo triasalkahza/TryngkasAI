@@ -99,7 +99,7 @@ function Header({ onMobileMenuToggle, isMobileMenuOpen }: { onMobileMenuToggle: 
 
 function HeroSection() {
   return (
-    <section className="relative w-full bg-background py-20 md:py-32 lg:py-40">
+    <section className="relative w-full bg-primary/10 py-20 md:py-32 lg:py-40">
        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white_5%,transparent_90%)] dark:bg-grid-slate-700/40"></div>
       <div className="container relative text-center">
         <div className="mx-auto max-w-3xl">
@@ -127,7 +127,7 @@ function WhyUsSection() {
   const advantages = [
     { icon: ShieldCheck, title: "Privasi Aman", description: "File PDF Anda diproses dan diringkas tanpa disimpan di server kami, menjamin kerahasiaan data." },
     { icon: Sparkles, title: "Akurasi Tinggi", description: "Didukung oleh model AI terbaru untuk menghasilkan ringkasan yang koheren dan relevan." },
-    { icon: Zap, title: "Akses Instan", description: "Tidak perlu login atau registrasi. Langsung gunakan, ringkas, dan selesai dalam sekejap." },
+    { icon: Zap, title: "Akses Instan", description: "Akses yang instan, dapat langsung digunakan untuk meringkas dan langsung selesai dalam sekejap." },
   ];
 
   return (
@@ -210,7 +210,7 @@ function HowItWorksSection() {
 
 function FeaturesSection() {
     const featureList = [
-        { icon: Bot, title: "Didukung Gemini AI", description: "Memanfaatkan kekuatan model AI tercanggih dari Google untuk kualitas ringkasan terbaik." },
+        { icon: Bot, title: "Teknologi AI", description: "Memanfaatkan kekuatan model AI yang canggih untuk kualitas ringkasan terbaik." },
         { icon: FileCode, title: "Multi-Format", description: "Mendukung berbagai jenis input, dari teks biasa, dokumen PDF, hingga konten halaman web." },
         { icon: Globe, title: "Sepenuhnya Online", description: "Akses dari mana saja dan kapan saja. Tidak perlu instalasi perangkat lunak apa pun." },
     ];
@@ -285,7 +285,7 @@ function FAQSection() {
   const faqs = [
     {
       question: "Apakah TryngkasAI benar-benar gratis digunakan?",
-      answer: "Ya, TryngkasAI sepenuhnya gratis untuk semua fitur utamanya, termasuk ringkasan teks, PDF, dan URL. Tidak ada biaya tersembunyi."
+      answer: "Ya, TryngkasAI sepenuhnya gratis untuk semua fitur utamanya, termasuk ringkasan teks, PDF, dan URL. Tidak ada biaya tersembunyi apapun."
     },
     {
       question: "Seberapa aman data dan file yang saya unggah?",
